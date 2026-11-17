@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Product Images</title>
+<style>
+body{font:13px system-ui,sans-serif;margin:16px;background:#fff}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+figure{margin:0;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;background:radial-gradient(circle at 50% 35%,#fff,#eef2f7)}
+img{width:100%;display:block;aspect-ratio:400/320}
+figcaption{padding:4px 8px;background:#fff;border-top:1px solid #e5e7eb}
+</style></head><body>
+<div class="g" id="g"></div>
+<script>
+// Lists every file in images/products (works with `python -m http.server`)
+fetch('../images/products/').then(r => r.text()).then(html => {
+  const names = [...html.matchAll(/href="([^"]+\.svg)"/g)].map(m => decodeURIComponent(m[1]));
+  document.getElementById('g').innerHTML = names.map(n => `<figure><img src="../images/products/${n}"><figcaption>${n.replace('.svg','')}</figcaption></figure>`).join('');
+});
+</script>
+</body></html>
